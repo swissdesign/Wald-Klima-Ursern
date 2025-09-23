@@ -177,6 +177,11 @@
   color: #1c1917;
 }
 
+        /* Normalize the title logo to inherit white and scale cleanly */
+.title-logo svg { display:block; color:#fff; }
+.title-logo .st0 { fill: currentColor; }            /* ensure all glyphs become white */
+.title-logo svg [stroke] { stroke: currentColor; }  /* if any strokes exist, make them white too */
+
         /* Base style for each full-screen "slide" section */
         .slide {
             min-height: 100vh;
