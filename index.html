@@ -189,6 +189,25 @@
   background-position: center;
   background-repeat: no-repeat;
  }
+
+.content-box {
+  background-color: var(--bg-color, rgba(12, 10, 9, 0.7)); /* Default dark color */
+  padding: 2rem 2.5rem;
+  border-radius: 0.75rem; /* Rounded corners */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* --- Gradual Color Progression --- */
+.bg-slide-1 { --bg-color: rgba(12, 10, 9, 0.65); }   /* Darkest */
+.bg-slide-2 { --bg-color: rgba(28, 25, 23, 0.7); }
+.bg-slide-3 { --bg-color: rgba(41, 37, 36, 0.75); }
+.bg-slide-4 { --bg-color: rgba(68, 64, 60, 0.78); }
+.bg-slide-5 { --bg-color: rgba(82, 76, 70, 0.8); }   /* Lighter */
+.bg-slide-final { --bg-color: rgba(21, 128, 61, 0.7); } /* Dark Green */
+        
         /* Base style for each full-screen "slide" section */
         .slide {
             min-height: 100vh;
@@ -536,7 +555,7 @@
 
 <!-- Slide 1: Title -->
 <section id="title" class="slide bg-stone-950 slide-bg" style="--bg-img: url('/assets/slide01.webp');">
-  <div class="max-w-4xl mx-auto text-center pt-20">
+  <div class="max-w-4xl content-box mx-auto text-center pt-20">
 
     <!-- Accessible H1 for SEO/screen readers (kept visually hidden) -->
     <h1 class="sr-only">Wald & Klima Ursern — Andermatt Dialogue - 24. Sept. 2025</h1>
@@ -591,7 +610,7 @@
 
     <!-- Slide 2: The Beautiful Lie -->
  <section id="intro" class="slide bg-stone-950 slide-bg" style="--bg-img: url('/assets/slide02.webp');">
-  <div class="max-w-4xl mx-auto">
+  <div class="max-w-4xl content-box mx-auto">
     <h2 class="text-4xl md:text-7xl leading-tight mb-6 fade-in-up">The Beautiful Lie</h2>
     <p class="text-xl md:text-2xl text-gray-200 mb-8 fade-in-up" style="transition-delay: 200ms;">
       We look at this valley and see permanence. Stability. But that assumption is a beautiful lie.
@@ -607,7 +626,7 @@
 
     <!-- Slide 3: September warnings -->
 <section id="warnings" class="slide bg-stone-950 slide-bg" style="--bg-img: url('/assets/slide03.webp');">
-  <div class="max-w-5xl mx-auto text-center">
+  <div class="max-w-5xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-12 fade-in-up">The September Warnings</h2>
     <div class="grid md:grid-cols-2 gap-8 items-start">
       <div class="fade-in-up text-left" style="transition-delay: 200ms;">
@@ -632,7 +651,7 @@
 
     <!-- Slide 4: The Escalation Scenario -->
     <section id="escalation" class="slide bg-stone-950 slide-bg" style="--bg-img: url('/assets/slide04.webp');">
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The Escalation Scenario</h2>
     <div class="fade-in-up" style="transition-delay: 200ms;">
       <div class="visual-placeholder"></div>
@@ -761,7 +780,7 @@
     <!-- Slide 5: The Naked Valley -->
     <section id="exposed" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide05.webp');">
 
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-6 fade-in-up">The Naked Valley: Urserntal</h2>
     <p class="text-xl text-slate-300 fade-in-up mb-8" style="transition-delay: 200ms;">
       Why are these warnings so critical here? Because Ursern is exposed. We have only <strong>6% forest cover</strong>—roughly a third of the regional average.<sup><a href="#ref3">[3]</a></sup>
@@ -776,8 +795,7 @@
     
     <!-- Slide 6: The 6% Lie -->
     <section id="lie" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide06.webp');">
-
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The 6% Lie</h2>
     <p class="text-xl md:text-2xl text-slate-200 fade-in-up mb-8" style="transition-delay: 200ms;">
       Even that 6% is misleading. Most of it is weak <em class="text-amber-400">Gebüschwald</em>, ineffective against rockfall.
@@ -792,10 +810,8 @@
 </section>
     
     <!-- Slide 7: The Silent Threat -->
-    <section id="threat" class="slide bg-stone-900 slide-bg"
-  style="--bg-img: url('/assets/slide07.webp');">
-
-  <div class="max-w-4xl mx-auto text-center">
+    <section id="threat" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide07.webp');">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The Silent Threat: Green Alder</h2>
     <p class="text-xl text-slate-300 fade-in-up" style="transition-delay: 200ms;">
       We can’t just wait for nature to fix this. Invasive Green Alder has expanded by <strong>~25% in the last decade</strong>, choking out protective conifers and
@@ -808,7 +824,7 @@
 
     <!-- Slide 8: The Solution: Living Infrastructure -->
     <section id="solution" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide08.webp');">
-  <div class="max-w-6xl mx-auto text-center">
+  <div class="max-w-6xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-12 fade-in-up">Living Infrastructure</h2>
     <div class="grid md:grid-cols-3 gap-8">
       <div class="fade-in-up p-6" style="transition-delay: 200ms;">
@@ -834,7 +850,7 @@
     
     <!-- Slide 9: High-Altitude Engineering -->
     <section id="engineering" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide09.webp');">
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">High-Altitude Engineering</h2>
     <p class="text-xl text-slate-300 fade-in-up" style="transition-delay: 200ms;">
       This isn’t gardening. It takes <strong>50–100 years</strong> for a seedling to become a fully effective protection forest. We commit to a decade of intensive care,
@@ -847,7 +863,7 @@
 
     <!-- Slide 10: Coalition of the Committed -->
     <section id="coalition" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide10.webp');">
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">A Coalition of the Committed</h2>
     <p class="text-xl text-slate-200 fade-in-up" style="transition-delay: 200ms;">
       This mission works because partners align strategy with stewardship. <strong>Andermatt Swiss Alps</strong> provides foundational financing and integrates forest health into development—using more local wood to close the loop. 
@@ -860,7 +876,7 @@
 
     <!-- Slide 11: The Legacy Investment -->
     <section id="investment" class="slide bg-green-700">
-        <div class="max-w-4xl mx-auto text-center">
+        <div class="max-w-4xl content-box mx-auto text-center">
             <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The Legacy Investment</h2>
             <p class="text-xl md:text-2xl text-slate-100 fade-in-up mb-8" style="transition-delay: 200ms;">This is not a donation; it is the smartest infrastructure investment in this valley, delivering a benefit-cost ratio of over 25 to 1.<sup><a href="#ref9">[9]</a></sup><sup><a href="#ref10">[10]</a></sup></p>
             <div class="w-full max-w-2xl mx-auto h-72 md:h-96 fade-in-up" style="transition-delay: 400ms;">
@@ -873,7 +889,7 @@
 
    <!-- Slide 12: The Long Game (50–100 Years) -->
 <section id="commitment" class="slide bg-stone-900 slide-bg" style="--bg-img: url('/assets/slide12.webp');">
-  <div class="max-w-4xl mx-auto text-center">
+  <div class="max-w-4xl content-box mx-auto text-center">
     <h2 class="text-3xl md:text-5xl mb-6 fade-in-up">The Long Game</h2>
     <p class="text-lg md:text-xl text-slate-100 fade-in-up" style="transition-delay: 120ms;">
       Our project is built for longevity. In critical areas like Bäz and Sattelegg, routine care and renewal must be funded not just for a decade, but across generations. We have structured our Verein and partnerships to carry stewardship forward for <span class="whitespace-nowrap">50–100 years</span>.
@@ -913,7 +929,7 @@
     <!-- Slide 13: Call to Action -->
     <section id="call-to-action" class="slide bg-stone-900 slide-bg"
   style="--bg-img: url('/assets/slide13.webp');">
-        <div class="max-w-4xl mx-auto text-center">
+        <div class="max-w-4xl content-box mx-auto text-center">
             <h2 class="text-3xl md:text-5xl mb-6 fade-in-up">Build The Shield</h2>
             <p class="text-xl md:text-2xl mb-10 text-green-50 fade-in-up" style="transition-delay: 200ms;">The seedlings we plant today will protect our grandchildren's homes tomorrow. The mountains are moving. The only shield is the forest. <strong>Join us.</strong></p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
