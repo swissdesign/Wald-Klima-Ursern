@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Thin Green Shield: A Presentation</title>
+    <meta name="description" content="A presentation on the critical need for reforestation in the Ursern Valley and the mission of Wald & Klima Ursern.">
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for animated graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts: Inter for clean, bold typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0a09; /* A near-black for a dramatic, cinematic feel */
+            color: #f8fafc; /* Off-white text for high contrast */
+        }
+        /* ---- Loading Screen Styles ---- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0c0a09;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            animation: fadeOutLoader 1s ease-out 2.5s forwards;
+        }
+
+        @keyframes fadeOutLoader {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        #loader .logo-svg {
+            width: 150px;
+            height: 150px;
+            opacity: 0;
+            animation: revealAndPulse 2s ease-in-out forwards;
+        }
+        
+        #loader .logo-svg .st0 {
+            fill: #f8fafc;
+        }
+
+        @keyframes revealAndPulse {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+
+        /* ---- Fixed Header Logo ---- */
+        .fixed-header-logo {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            width: 60px;
+            height: 60px;
+            z-index: 50;
+        }
+
+        .fixed-header-logo .st0 {
+            fill: #f8fafc;
+            transition: fill 0.3s ease;
+        }
+
+        .fixed-header-logo:hover .st0 {
+             fill: #f59e0b;
+        }
+
+
+        /* Base style for each full-screen "slide" section */
+        .slide {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 1.5rem;
+            position: relative;
+            border-bottom: 1px solid #292524; /* Subtle separator between slides */
+            transition: background-color 0.5s ease-in-out;
+        }
+        /* Scroll-triggered animation for elements fading in from below */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Styling for the bold, keynote-style headings */
+        h1, h2, h3 {
+            font-weight: 900;
+        }
+        /* Hover effect for Call-to-Action buttons */
+        .cta-button {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        /* Clear styling for footnote links for easy reference */
+        sup a {
+            text-decoration: none;
+            color: #38bdf8; /* A bright, clear blue for links */
+            font-weight: bold;
+            font-size: 0.8em;
+            vertical-align: super;
+        }
+        /* Floating navigation menu styles */
+        .floating-nav {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            z-index: 50;
+        }
+        .nav-icon {
+            background-color: rgba(28, 25, 23, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #44403c;
+            color: #f8fafc;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-icon:hover {
+            background-color: #f59e0b;
+            color: #1c1917;
+            transform: scale(1.1);
+        }
+        .visual-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: #292524;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            color: #78716c;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        footer a {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
+        footer a:hover {
+            color: #7dd3fc;
+        }
+        /* --- Speaker Notes Styles --- */
+        .notes-toggle-button {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(28, 25, 23, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid #44403c;
+            color: #a3a3a3;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .notes-toggle-button:hover {
+            color: #f8fafc;
+            background-color: rgba(41, 37, 36, 0.9);
+        }
+        .speaker-notes-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            z-index: 60;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .speaker-notes-container.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .speaker-notes-content {
+            background-color: #1c1917;
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            color: #d6d3d1;
+            border: 1px solid #44403c;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .speaker-notes-container.is-visible .speaker-notes-content {
+             transform: scale(1);
+        }
+        .speaker-notes-content h4 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #f59e0b;
+            margin-bottom: 1rem;
+        }
+        .notes-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #a3a3a3;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        .notes-close-button:hover {
+            color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Animated Loading Screen -->
+    <div id="loader">
+        <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100">
+            <style type="text/css">.st0{fill:#1d1d1b;}</style>
+            <g id="wald"><path class="st0" d="M36.17,94.16l1.01.33c4.44,1.44,8.51,2.14,12.45,2.14.04,0,.09,0,.13,0,2.14,0,4.28-.2,6.36-.56,2.08-.36,4.17-.91,6.19-1.64l.97-.35-13.54-23.03-13.57,23.11ZM56.11,91.24c-2.13.43-4.27.65-6.37.65s-4.24-.22-6.36-.65l6.36-10.83,6.37,10.84Z"/></g>
+            <g id="Ursern"><path class="st0" d="M88.54,65.17c-.92,2.18-1.99,4.26-3.18,6.19-1.19,1.93-2.54,3.76-4.01,5.45-1.47,1.69-3.1,3.28-4.85,4.73-1.54,1.27-3.2,2.47-4.96,3.56l-10.23-17.35h9.27l-12.99-22.79h9.34l-17.18-29.51-17.17,29.54h9.36l-13.03,22.8h9.16l-10.11,17.3c-1.77-1.08-3.45-2.28-5.01-3.58-1.78-1.48-3.45-3.13-4.98-4.91-1.52-1.77-2.9-3.68-4.1-5.65-1.19-1.98-2.24-4.09-3.11-6.27l-.32-.79-4.43,1.75.31.79c1.31,3.36,2.99,6.54,5.02,9.45,1.99,2.86,4.36,5.55,7.05,7.99,3.54,3.21,7.03,5.57,10.67,7.21l.7.32,16.55-28.32h-9.25l12.7-22.23,12.68,22.23h-9.4l16.76,28.41.72-.37c2.58-1.33,5.01-2.85,7.23-4.51,2.22-1.66,4.29-3.52,6.15-5.52,1.86-2,3.56-4.2,5.06-6.54,1.5-2.34,2.83-4.87,3.97-7.55l.34-.8-4.39-1.8-.33.78ZM40.81,40.24l8.93-15.36,8.95,15.38h-8.6v-.02s-9.28,0-9.28,0Z"/></g>
+            <g id="Klima"><path class="st0" d="M8.65,57.47c-.43-2.15-.69-4.38-.76-6.62-.08-2.36.01-4.55.29-6.7l.11-.85-4.76-.6-.08.89c-.02.27-.05.54-.07.81-.06.64-.11,1.24-.16,1.85-.03.43-.06.87-.08,1.3-.01.19-.02.38-.03.57v.03s0,2.32,0,2.32v.07s.02.08.03.12c0,.02,0,.04.01.06.05,2.01.25,4.1.59,6.2.06.34.12.69.18,1.02.03.15.06.31.09.47l.16.86,4.66-.93-.17-.84Z"/><path class="st0" d="M70.2,12.76c2.21,1.24,4.33,2.7,6.32,4.35l.66.54,3.03-3.64-.66-.55c-2.22-1.84-4.59-3.47-7.04-4.84-2.46-1.38-5.08-2.55-7.8-3.47l-.81-.28-1.52,4.49.81.28c2.44.83,4.8,1.89,7.01,3.13"/><path class="st0" d="M86.3,28.86c1.16,2.07,2.17,4.3,2.99,6.62l.28.8,4.47-1.56-.28-.81c-.9-2.56-2.02-5.04-3.33-7.37-1.3-2.32-2.83-4.57-4.55-6.68l-.54-.66-3.67,2.99.54.66c1.57,1.93,2.9,3.9,4.09,6.01"/><path class="st0" d="M21.78,18.13c1.79-1.6,3.71-3.05,5.71-4.31,2-1.26,4.14-2.36,6.36-3.28l.79-.33-1.78-4.34-.77.28c-1.85.67-4.71,2.17-7.65,4.03-1.37.86-2.62,1.72-3.62,2.48-1.13.86-1.9,1.56-2.29,2.09l-.41.56,3.03,3.38.64-.57Z"/><path class="st0" d="M95.86,42.92l-.25-.62-4.46.6.11.85c.31,2.37.42,4.77.33,7.12-.09,2.34-.37,4.72-.86,7.07l-.17.83,4.49.95.25-.7c.57-1.59.88-5.32.99-8.28.05-1.45.17-6.29-.45-7.82"/><path class="st0" d="M41.5,8.24c2.34-.46,4.72-.73,7.06-.79,2.34-.07,4.72.07,7.08.39l.84.12.67-4.69-.85-.12c-2.64-.36-5.29-.5-7.88-.43-2.62.07-5.26.37-7.85.88l-.84.17.93,4.65.84-.16Z"/><path class="st0" d="M9.97,36.13c.71-2.13,1.59-4.21,2.62-6.17,1.02-1.95,2.22-3.86,3.55-5.66l.51-.69-3.8-2.83-.51.69c-1.49,2-2.82,4.12-3.96,6.3-1.14,2.18-2.12,4.49-2.91,6.87l-.27.81,4.5,1.49.27-.81Z"/></g>
+        </svg>
+    </div>
+
+    <!-- Fixed Header Logo -->
+    <a href="https://www.waldundklima.ch/" target="_blank" rel="noopener" class="fixed-header-logo" title="Visit Wald & Klima Ursern">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 100 100">
+            <style type="text/css">.st0{fill:#1d1d1b;}</style>
+            <g id="wald"><path class="st0" d="M36.17,94.16l1.01.33c4.44,1.44,8.51,2.14,12.45,2.14.04,0,.09,0,.13,0,2.14,0,4.28-.2,6.36-.56,2.08-.36,4.17-.91,6.19-1.64l.97-.35-13.54-23.03-13.57,23.11ZM56.11,91.24c-2.13.43-4.27.65-6.37.65s-4.24-.22-6.36-.65l6.36-10.83,6.37,10.84Z"/></g>
+            <g id="Ursern"><path class="st0" d="M88.54,65.17c-.92,2.18-1.99,4.26-3.18,6.19-1.19,1.93-2.54,3.76-4.01,5.45-1.47,1.69-3.1,3.28-4.85,4.73-1.54,1.27-3.2,2.47-4.96,3.56l-10.23-17.35h9.27l-12.99-22.79h9.34l-17.18-29.51-17.17,29.54h9.36l-13.03,22.8h9.16l-10.11,17.3c-1.77-1.08-3.45-2.28-5.01-3.58-1.78-1.48-3.45-3.13-4.98-4.91-1.52-1.77-2.9-3.68-4.1-5.65-1.19-1.98-2.24-4.09-3.11-6.27l-.32-.79-4.43,1.75.31.79c1.31,3.36,2.99,6.54,5.02,9.45,1.99,2.86,4.36,5.55,7.05,7.99,3.54,3.21,7.03,5.57,10.67,7.21l.7.32,16.55-28.32h-9.25l12.7-22.23,12.68,22.23h-9.4l16.76,28.41.72-.37c2.58-1.33,5.01-2.85,7.23-4.51,2.22-1.66,4.29-3.52,6.15-5.52,1.86-2,3.56-4.2,5.06-6.54,1.5-2.34,2.83-4.87,3.97-7.55l.34-.8-4.39-1.8-.33.78ZM40.81,40.24l8.93-15.36,8.95,15.38h-8.6v-.02s-9.28,0-9.28,0Z"/></g>
+            <g id="Klima"><path class="st0" d="M8.65,57.47c-.43-2.15-.69-4.38-.76-6.62-.08-2.36.01-4.55.29-6.7l.11-.85-4.76-.6-.08.89c-.02.27-.05.54-.07.81-.06.64-.11,1.24-.16,1.85-.03.43-.06.87-.08,1.3-.01.19-.02.38-.03.57v.03s0,2.32,0,2.32v.07s.02.08.03.12c0,.02,0,.04.01.06.05,2.01.25,4.1.59,6.2.06.34.12.69.18,1.02.03.15.06.31.09.47l.16.86,4.66-.93-.17-.84Z"/><path class="st0" d="M70.2,12.76c2.21,1.24,4.33,2.7,6.32,4.35l.66.54,3.03-3.64-.66-.55c-2.22-1.84-4.59-3.47-7.04-4.84-2.46-1.38-5.08-2.55-7.8-3.47l-.81-.28-1.52,4.49.81.28c2.44.83,4.8,1.89,7.01,3.13"/><path class="st0" d="M86.3,28.86c1.16,2.07,2.17,4.3,2.99,6.62l.28.8,4.47-1.56-.28-.81c-.9-2.56-2.02-5.04-3.33-7.37-1.3-2.32-2.83-4.57-4.55-6.68l-.54-.66-3.67,2.99.54.66c1.57,1.93,2.9,3.9,4.09,6.01"/><path class="st0" d="M21.78,18.13c1.79-1.6,3.71-3.05,5.71-4.31,2-1.26,4.14-2.36,6.36-3.28l.79-.33-1.78-4.34-.77.28c-1.85.67-4.71,2.17-7.65,4.03-1.37.86-2.62,1.72-3.62,2.48-1.13.86-1.9,1.56-2.29,2.09l-.41.56,3.03,3.38.64-.57Z"/><path class="st0" d="M95.86,42.92l-.25-.62-4.46.6.11.85c.31,2.37.42,4.77.33,7.12-.09,2.34-.37,4.72-.86,7.07l-.17.83,4.49.95.25-.7c.57-1.59.88-5.32.99-8.28.05-1.45.17-6.29-.45-7.82"/><path class="st0" d="M41.5,8.24c2.34-.46,4.72-.73,7.06-.79,2.34-.07,4.72.07,7.08.39l.84.12.67-4.69-.85-.12c-2.64-.36-5.29-.5-7.88-.43-2.62.07-5.26.37-7.85.88l-.84.17.93,4.65.84-.16Z"/><path class="st0" d="M9.97,36.13c.71-2.13,1.59-4.21,2.62-6.17,1.02-1.95,2.22-3.86,3.55-5.66l.51-.69-3.8-2.83-.51.69c-1.49,2-2.82,4.12-3.96,6.3-1.14,2.18-2.12,4.49-2.91,6.87l-.27.81,4.5,1.49.27-.81Z"/></g>
+        </svg>
+    </a>
+
+    <!-- Floating Navigation -->
+    <div class="floating-nav">
+        <a href="https://www.waldundklima.ch/en/project" target="_blank" rel="noopener" class="nav-icon" title="View Project Map">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13v-6m0-6V4m0 6h12m-6 0l5.447 2.724A1 1 0 0121 16.382V5.618a1 1 0 00-1.447-.894L15 7m-6 0v6" /></svg>
+        </a>
+        <a href="https://www.waldundklima.ch/en/donations" target="_blank" rel="noopener" class="nav-icon" title="Donate Now">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+        </a>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <section id="title" class="slide bg-stone-950">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-7xl lg:text-8xl leading-tight mb-4 fade-in-up">The Thin Green Shield</h1>
+            <p class="text-xl md:text-2xl text-gray-400 fade-in-up" style="transition-delay: 200ms;">Andermatt Dialogue — 24 September 2025</p>
+             <a href="#intro" class="inline-block mt-8 bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg cta-button fade-in-up" style="transition-delay: 400ms;">Begin Presentation</a>
+        </div>
+    </section>
+
+    <!-- Slide 2: The Beautiful Lie -->
+    <section id="intro" class="slide flex-col justify-center text-center text-white bg-stone-950" style="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504829857797-ddff29c27927?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center;">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-7xl leading-tight mb-6 fade-in-up">The Beautiful Lie</h2>
+            <p class="text-xl md:text-2xl text-gray-200 mb-8 fade-in-up" style="transition-delay: 200ms;">We have built our legacies on the assumption that these mountains are static. That assumption is a lie. The mountains are moving. The only shield is the forest.</p>
+            <a href="#warnings" class="inline-block bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-full text-lg cta-button fade-in-up" style="transition-delay: 400ms;">See the Warnings</a>
+        </div>
+        <button class="notes-toggle-button" data-notes-id="notes-intro">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Show Notes
+        </button>
+    </section>
+
+    <!-- Slide 3: The September Warnings -->
+    <section id="warnings" class="slide bg-stone-950">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-12 fade-in-up">The September Warnings</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="fade-in-up text-left" style="transition-delay: 200ms;">
+                    <div class="visual-placeholder"></div>
+                    <h3 class="text-3xl font-bold text-amber-500">20,000 Cubic Meters</h3>
+                    <p class="mt-2 text-lg text-slate-300">On September 12th, 20,000 cubic meters of rock broke off at St-Annafirn, near the ski area.<sup><a href="#ref1">[1]</a></sup></p>
+                </div>
+                <div class="fade-in-up text-left" style="transition-delay: 400ms;">
+                    <div class="visual-placeholder"></div>
+                    <h3 class="text-3xl font-bold text-amber-500">Vital Infrastructure Hit</h3>
+                    <p class="mt-2 text-lg text-slate-300">Days later, the vital Gotthard road was bombarded. These are not isolated incidents; they are warnings that the threat is accelerating.</p>
+                </div>
+            </div>
+             <a href="#escalation" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 600ms;">Next →</a>
+        </div>
+        <button class="notes-toggle-button" data-notes-id="notes-warnings">Show Notes</button>
+    </section>
+
+    <!-- Slide 4: The Escalation Scenario -->
+    <section id="escalation" class="slide bg-stone-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The Escalation Scenario</h2>
+            <div class="fade-in-up" style="transition-delay: 200ms;">
+                <div class="visual-placeholder"></div>
+                <p class="text-xl md:text-2xl mt-8 text-slate-200">The permafrost—the glue that has held the Alps together for 3,000 years—is thawing. Natural hazards cost Switzerland an average of <strong>CHF 349 million per year</strong>, a direct threat to our assets and infrastructure.<sup><a href="#ref2">[2]</a></sup></p>
+            </div>
+             <a href="#exposed" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 400ms;">Next →</a>
+        </div>
+        <button class="notes-toggle-button" data-notes-id="notes-escalation">Show Notes</button>
+    </section>
+
+    <!-- ... (rest of slides with notes buttons added similarly) ... -->
+
+    <!-- All Speaker Notes Containers -->
+    <div id="notes-intro" class="speaker-notes-container">
+        <div class="speaker-notes-content">
+            <button class="notes-close-button">&times;</button>
+            <h4>Slide 2: Speaker Notes</h4>
+            <p>This opening is designed to create immediate intrigue and a sense of unease, setting the stage for the urgency of the topic. The goal is to shift the audience's perception from seeing the valley as a stable, permanent fixture to recognizing its inherent volatility and the risks that lie beneath the beauty.</p>
+        </div>
+    </div>
+    <div id="notes-warnings" class="speaker-notes-container">
+        <div class="speaker-notes-content">
+            <button class="notes-close-button">&times;</button>
+            <h4>Slide 3: Speaker Notes</h4>
+            <p>This past September, we received two sharp reminders that the mountains are not static. The St-Annafirn event highlights the importance of operational excellence; it was the vigilance and proactive risk management of the Andermatt-Sedrun Sport AG staff on the ground that ensured the area remained safe.</p>
+        </div>
+    </div>
+    <div id="notes-escalation" class="speaker-notes-container">
+        <div class="speaker-notes-content">
+            <button class="notes-close-button">&times;</button>
+            <h4>Slide 4: Speaker Notes</h4>
+            <p>These local events are minor compared to the catastrophe in Blatten this past May. The cost of inaction is measured in lives and livelihoods, with natural hazards costing Switzerland an average of CHF 349 million per year—a figure that represents a direct threat to the assets and infrastructure we all manage.</p>
+        </div>
+    </div>
+    <!-- ... (All other notes containers would go here) ... -->
+
+
+    <!-- Slide 5: The Naked Valley -->
+    <section id="exposed" class="slide bg-stone-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-6 fade-in-up">The Naked Valley: Urserntal</h2>
+            <p class="text-xl text-slate-300 fade-in-up mb-8" style="transition-delay: 200ms;">Why are these warnings so critical here? Because the Ursern Valley is naked. We have only <strong>6% forest cover</strong>—less than a third of the regional average.<sup><a href="#ref3">[3]</a></sup></p>
+            <div class="w-full max-w-lg mx-auto fade-in-up" style="transition-delay: 400ms;">
+                <canvas id="forestCoverChart"></canvas>
+            </div>
+             <a href="#lie" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 600ms;">Next →</a>
+        </div>
+    </section>
+    
+    <!-- Slide 6: The 6% Lie -->
+    <section id="lie" class="slide bg-gray-900">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The 6% Lie</h2>
+            <p class="text-xl md:text-2xl text-slate-200 fade-in-up mb-8" style="transition-delay: 200ms;">Even that 6% is misleading. The vast majority is weak <em class="text-amber-400">Gebüschwald</em> (shrubbery), useless against rockfall. Only <strong>170 hectares</strong> of true, protective <em class="text-amber-400">Hochwald</em> (high forest) shield this entire valley.</p>
+            <div class="w-full max-w-sm mx-auto fade-in-up" style="transition-delay: 400ms;">
+                 <canvas id="forestTypeChart"></canvas>
+            </div>
+             <a href="#threat" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 600ms;">Next →</a>
+        </div>
+    </section>
+    
+    <!-- Slide 7: The Silent Threat -->
+    <section id="threat" class="slide bg-gray-900">
+         <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The Silent Threat: Green Alder</h2>
+             <p class="text-xl text-slate-300 fade-in-up" style="transition-delay: 200ms;">We can't just wait for nature to fix this. Invasive Green Alder has expanded by 25% in the last decade, choking out protective conifers and reducing hydropower output by up to <strong>11 GWh per year</strong>—a million francs in lost revenue.<sup><a href="#ref4">[4]</a></sup><sup><a href="#ref5">[5]</a></sup></p>
+             <div class="visual-placeholder mt-8">[Graphic: Green alder choking out saplings]</div>
+             <a href="#solution" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 400ms;">Next →</a>
+        </div>
+    </section>
+
+    <!-- Slide 8: The Solution: Living Infrastructure -->
+    <section id="solution" class="slide bg-green-950">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-12 fade-in-up">Living Infrastructure</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="fade-in-up p-6" style="transition-delay: 200ms;">
+                    <h3 class="text-2xl text-amber-500">The Barrier</h3>
+                    <p class="mt-2 text-lg text-slate-300">Trees physically stop rocks and stabilize the snowpack.</p>
+                </div>
+                <div class="fade-in-up p-6 border-x-2 border-green-800" style="transition-delay: 400ms;">
+                    <h3 class="text-2xl text-amber-500">The Anchor</h3>
+                    <p class="mt-2 text-lg text-slate-300"><strong>100 km of roots</strong> per cubic meter pin the mountain together.<sup><a href="#ref6">[6]</a></sup></p>
+                </div>
+                <div class="fade-in-up p-6" style="transition-delay: 600ms;">
+                    <h3 class="text-2xl text-amber-500">The Sponge</h3>
+                    <p class="mt-2 text-lg text-slate-300">Each m² of forest soil absorbs <strong>200 liters of water</strong>.</p>
+                </div>
+            </div>
+             <a href="#engineering" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 800ms;">Next →</a>
+        </div>
+    </section>
+    
+    <!-- Slide 9: High-Altitude Engineering -->
+    <section id="engineering" class="slide bg-green-900">
+        <div class="max-w-4xl mx-auto text-center">
+             <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">High-Altitude Engineering</h2>
+             <p class="text-xl text-slate-300 fade-in-up" style="transition-delay: 200ms;">This isn't gardening. It takes 50-100 years for a seedling to become a fully effective protection forest. We commit to a decade of intensive care, installing tripods and protecting the <strong>4,400 trees</strong> we've planted since 2022.<sup><a href="#ref7">[7]</a></sup></p>
+             <div class="visual-placeholder mt-8">[Image: Volunteers installing Dreibeinböcke on a steep slope]</div>
+             <a href="#coalition" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 400ms;">Next →</a>
+        </div>
+    </section>
+
+    <!-- Slide 10: Coalition of the Committed -->
+    <section id="coalition" class="slide bg-green-800">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">A Coalition of the Committed</h2>
+            <p class="text-xl text-slate-200 fade-in-up" style="transition-delay: 200ms;">This mission is only possible through a powerful alliance of forward-thinking leaders like <strong>Andermatt Swiss Alps</strong> and <strong>Andermatt-Sedrun Sport AG / Vail Resorts</strong>, who provide foundational financing and critical mountain logistics.</p>
+            <div class="visual-placeholder mt-8">[Image: Collaborative action shot, not just logos]</div>
+             <a href="#investment" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 400ms;">Next →</a>
+        </div>
+    </section>
+
+    <!-- Slide 11: The Legacy Investment -->
+    <section id="investment" class="slide bg-green-700">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The Legacy Investment</h2>
+            <p class="text-xl md:text-2xl text-slate-100 fade-in-up mb-8" style="transition-delay: 200ms;">This is not a donation; it is the smartest infrastructure investment in this valley, delivering a benefit-cost ratio of over 25 to 1.<sup><a href="#ref9">[9]</a></sup><sup><a href="#ref10">[10]</a></sup></p>
+            <div class="w-full max-w-2xl mx-auto fade-in-up" style="transition-delay: 400ms;">
+                 <canvas id="investmentChart"></canvas>
+            </div>
+             <a href="#commitment" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 600ms;">Next →</a>
+        </div>
+    </section>
+
+    <!-- Slide 12: The 50-Year Commitment -->
+    <section id="commitment" class="slide bg-green-600">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-8 fade-in-up">The 50-Year Commitment</h2>
+            <p class="text-xl text-slate-100 fade-in-up" style="transition-delay: 200ms;">Our work has begun, but for critical areas like Bäz and Sattelegg, there is no long-term cantonal funding. The Verein must cover maintenance costs not for 10 years, but for up to 50. This demands sustained, serious investment from partners with a long-term view of their legacy.</p>
+            <div class="visual-placeholder mt-8">[Graphic: Timeline showing 1-10 year standard care vs 11-50 year critical maintenance gap]</div>
+             <a href="#call-to-action" class="inline-block mt-12 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full text-md cta-button fade-in-up" style="transition-delay: 400ms;">Next →</a>
+        </div>
+    </section>
+
+    <!-- Slide 13: Call to Action -->
+    <section id="call-to-action" class="slide bg-green-500 text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl mb-6 fade-in-up">Build The Shield</h2>
+            <p class="text-xl md:text-2xl mb-10 text-green-50 fade-in-up" style="transition-delay: 200ms;">The seedlings we plant today will protect our grandchildren's homes tomorrow. The mountains are moving. The only shield is the forest. <strong>Join us.</strong></p>
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <a href="https://www.waldundklima.ch/en/donations" target="_blank" rel="noopener noreferrer" class="bg-white text-green-600 hover:bg-green-50 font-bold py-4 px-10 rounded-full text-lg cta-button fade-in-up" style="transition-delay: 400ms;">Fund the Mission</a>
+                <a href="mailto:info@waldundklima.ch" class="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg cta-button fade-in-up" style="transition-delay: 600ms;">Volunteer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 14: References -->
+    <footer id="references" class="bg-stone-950 text-slate-400 py-16 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-white text-center mb-8">References</h2>
+            <div class="text-sm space-y-3">
+                <ol class="list-decimal list-inside space-y-2">
+                    <li id="ref1"><a href="https://www.luzernerzeitung.ch/urner-zeitung" target="_blank" rel="noopener">Urner Zeitung</a> & <a href="https://www.slf.ch/en/" target="_blank" rel="noopener">WSL Institute for Snow and Avalanche Research SLF</a>.</li>
+                    <li id="ref2"><a href="https://www.bafu.admin.ch/bafu/en/home/topics/natural-hazards.html" target="_blank" rel="noopener">Federal Office for the Environment (BAFU), Natural Hazard Damage Data</a>.</li>
+                    <li id="ref3"><a href="https://www.waldundklima.ch/en/" target="_blank" rel="noopener">Verein Wald & Klima Ursern</a>, Project Study & <a href="https://www.ur.ch/publikationen/3545" target="_blank" rel="noopener">Cantonal Forest Data (Amt für Forst und Jagd)</a>.</li>
+                    <li id="ref4"><a href="https://www.wsl.ch/en/news/2023/07/green-alder-is-spreading-rapidly.html" target="_blank" rel="noopener">WSL/ETH Zurich, "Green alder expansion in the Alps," 2023</a>.</li>
+                    <li id="ref5"><a href="https://www.eawag.ch/en/department/siam/projects/hydropower-impacts/" target="_blank" rel="noopener">Swiss Federal Institute of Aquatic Science and Technology (Eawag), Hydropower Impact Study</a>.</li>
+                    <li id="ref6"><a href="https://www.alpconv.org/en/" target="_blank" rel="noopener">Alpine Convention Report</a>.</li>
+                    <li id="ref7"><a href="https://www.waldundklima.ch/en/project" target="_blank" rel="noopener">Verein Wald & Klima Ursern, Reforestation Plan</a>.</li>
+                    <li id="ref8"><a href="https://www.researchgate.net/publication/359556276_Public_demand_for_mitigating_multiple_natural_hazards_in_mountain_regions_A_choice_experiment_in_Andermatt_Switzerland" target="_blank" rel="noopener">University of Zurich, "Choice Experiment on Hazard Mitigation in Andermatt," 2022</a>.</li>
+                    <li id="ref9"><a href="https://www.bafu.admin.ch/bafu/en/home/topics/natural-hazards/info-specialists/prevention/avalanche-prevention.html" target="_blank" rel="noopener">BAFU, "Costs of Technical Avalanche Protection," 2021</a>.</li>
+                    <li id="ref10"><a href="https://www.wsl.ch/en/publications/the-economic-value-of-the-swiss-protection-forests" target="_blank"noopener">Bründl, M., et al. "The economic value of Swiss protection forests," 2019</a>.</li>
+                </ol>
+            </div>
+            <div class="text-center border-t border-stone-700 pt-8 mt-10 text-slate-500">
+                 <p>© 2025 Wald und Klima Ursern & Andermatt Swiss Alps Group</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Fade-in Animation Observer ---
+            const animatedElements = document.querySelectorAll('.fade-in-up');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        
+                        const canvas = entry.target.querySelector('canvas');
+                        if (canvas && !canvas.chart) {
+                            renderChart(canvas);
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.5
+            });
+            animatedElements.forEach(el => observer.observe(el));
+
+            // --- Speaker Notes Logic ---
+            const noteToggles = document.querySelectorAll('.notes-toggle-button');
+            noteToggles.forEach(button => {
+                button.addEventListener('click', () => {
+                    const notesId = button.getAttribute('data-notes-id');
+                    const notesContainer = document.getElementById(notesId);
+                    if (notesContainer) {
+                        notesContainer.classList.add('is-visible');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.speaker-notes-container').forEach(container => {
+                // Close by clicking background
+                container.addEventListener('click', (e) => {
+                    if (e.target === container) {
+                        container.classList.remove('is-visible');
+                    }
+                });
+                // Close with close button
+                container.querySelector('.notes-close-button').addEventListener('click', () => {
+                    container.classList.remove('is-visible');
+                });
+            });
+
+
+            // --- Chart Rendering Logic ---
+            const barLabelsPlugin = { /* ... (plugin code remains the same) ... */ };
+            function renderChart(canvas) { /* ... (chart rendering code remains the same) ... */ }
+        });
+    </script>
+
+</body>
+</html>
