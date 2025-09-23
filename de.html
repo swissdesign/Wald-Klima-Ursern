@@ -1037,8 +1037,8 @@
                                 }
 
                                 if (xPos && yPos) {
-                                  const label = dataset.labelFormatter ? dataset.labelFormatter(value) : value;
-                                  ctx.fillText(label, xPos, yPos);
+                                   const label = dataset.labelFormatter ? dataset.labelFormatter(value) : value;
+                                   ctx.fillText(label, xPos, yPos);
                                 }
                             });
                         }
@@ -1054,4 +1054,106 @@
                 const ctx = canvas.getContext('2d');
                 if (!ctx) return;
                 
-                const default
+                const defaultOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#d6d3d1', font: { family: "'Inter', sans-serif", size: 14 } },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                        },
+                        y: {
+                            ticks: { color: '#d6d3d1', font: { family: "'Inter', sans-serif", size: 14 } },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            beginAtZero: true
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                };
+
+                let config;
+                switch (canvas.id) {
+                    case 'forestCoverChart':
+                        config = {
+                            type: 'bar',
+                            data: {
+                                labels: ['Ursern Valley', 'Canton Uri Average'],
+                                datasets: [{
+                                    label: 'Forest Cover (%)',
+                                    data: [6, 18.5],
+                                    backgroundColor: ['#f59e0b', '#166534'],
+                                    borderRadius: 4,
+                                    labelFormatter: (value) => `${value}%`
+                                }]
+                            },
+                            options: { ...defaultOptions,
+                                scales: { ...defaultOptions.scales, y: { ...defaultOptions.scales.y, max: 25 } }
+                            }
+                        };
+                        break;
+                    case 'forestTypeChart':
+                        config = {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Protective Hochwald', 'Weak Gebüschwald'],
+                                datasets: [{
+                                    data: [170, 2600],
+                                    backgroundColor: ['#16a34a', '#b45309'],
+                                    borderColor: '#0c0a09',
+                                    borderWidth: 5,
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            color: '#f8fafc',
+                                            font: { size: 16, family: "'Inter', sans-serif" },
+                                            padding: 20
+                                        }
+                                    },
+                                    tooltip: { enabled: true }
+                                },
+                                animation: { duration: 1500, easing: 'easeInOutQuart' }
+                            }
+                        };
+                        break;
+                    case 'investmentChart':
+                        config = {
+                            type: 'bar',
+                            data: {
+                                labels: ['Cost', 'Benefit'],
+                                datasets: [{
+                                    data: [1, 25],
+                                    backgroundColor: ['#dc2626', '#22c55e'],
+                                    borderRadius: 4,
+                                    labelFormatter: (value) => `CHF ${value}M`
+                                }]
+                            },
+                            options: { ...defaultOptions,
+                                indexAxis: 'y',
+                                scales: { ...defaultOptions.scales, x: { ...defaultOptions.scales.x, max: 28 } }
+                            }
+                        };
+                        break;
+                    default:
+                        return;
+                }
+
+                canvas.chart = new Chart(ctx, config);
+            }
+        });
+    </script>
+
+</body>
+</html>
