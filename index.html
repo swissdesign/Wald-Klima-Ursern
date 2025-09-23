@@ -64,38 +64,75 @@
         }
 
         /* ---- Fixed Header Logos ---- */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            padding: 1.5rem;
-            pointer-events: none; /* Allows click-through to content below */
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-        .header-logo {
-            width: 70px; /* Adjusted size for better balance */
-            height: 70px;
-            color: #f8fafc;
-            pointer-events: auto; /* Re-enable pointer events for logos */
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .header-logo:hover {
-            color: #f59e0b;
-            transform: scale(1.05);
-        }
-        .header-logo.center-logo {
-            width: 90px; /* Make center logo slightly larger */
-            height: 90px;
-        }
+       /* ---- Fixed Header Logos (improved) ---- */
+.fixed-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 1rem 1.25rem;
+  pointer-events: none;
+}
 
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Make links control the SVG color and responsiveness */
+.header-logo {
+  pointer-events: auto;
+  color: #ffffff;                 /* <— master color: pure white */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(64px, 7vw, 112px); /* responsive size */
+  height: clamp(64px, 7vw, 112px);
+  transition: transform .2s ease, opacity .2s ease;
+  /* OPTIONAL readability badge behind logos; uncomment if you want it:
+  background-color: rgba(0,0,0,0.35);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 9999px;
+  */
+}
+
+.header-logo.center-logo {
+  width: clamp(80px, 9vw, 140px);
+  height: clamp(80px, 9vw, 140px);
+}
+
+/* Ensure SVGs scale to their parent box cleanly */
+.header-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* CRITICAL: kill any internal black fills/strokes from embedded <style> or class="st0" */
+.header-logo svg *,
+.header-logo svg .st0,
+.header-logo svg [fill],
+.header-logo svg [stroke] {
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* Subtle hover without changing color */
+.header-logo:hover {
+  transform: scale(1.04);
+}
+
+/* Keep nav icons consistent with header color */
+.nav-icon {
+  color: #ffffff;
+}
+.nav-icon:hover {
+  color: #1c1917;
+}
 
         /* Base style for each full-screen "slide" section */
         .slide {
