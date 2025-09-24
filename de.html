@@ -1068,23 +1068,98 @@
                 let config;
                 switch (canvas.id) {
                     case 'forestCoverChart':
-                        config = {
-                            type: 'bar',
-                            data: {
-                                labels: ['Urserntal', 'Durchschnitt Kt. Uri'],
-                                datasets: [{
-                                    label: 'Waldbedeckung (%)',
-                                    data: [6, 17],
-                                    backgroundColor: ['#f59e0b', '#166534'],
-                                    borderRadius: 4,
-                                    labelFormatter: (value) => `${value}%`
-                                }]
-                            },
-                            options: { ...defaultOptions,
-                                scales: { ...defaultOptions.scales, y: { ...defaultOptions.scales.y, max: 25 } }
-                            }
-                        };
-                        break;
+  // Data (ca. 2018–2020), rounded where source is "~"
+  // Uri 17.4 / ~45 / ~22; Graubünden 24.9 / ~55 / ~10;
+  // Ticino 47.8 / ~50 / ~5; Valais 22.3 / ~60 / ~15; CH avg 31 / ~41 / ~5
+  config = {
+    type: 'bar',
+    data: {
+      labels: ['Uri', 'Graubünden', 'Ticino', 'Valais', 'Switzerland'],
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Forest (% of total area)',
+          data: [17.4, 24.9, 47.8, 22.3, 31.0],
+          backgroundColor: '#166534', // deep green
+          borderRadius: 4,
+          labelFormatter: (v) => `${v}%`,
+          yAxisID: 'y'
+        },
+        {
+          type: 'bar',
+          label: 'Forest (% of usable area)',
+          data: [45, 55, 50, 60, 41],
+          backgroundColor: '#22c55e', // light green
+          borderRadius: 4,
+          labelFormatter: (v) => `${v}%`,
+          yAxisID: 'y'
+        },
+        {
+          type: 'line',
+          label: 'Brush : High forest (% brush)',
+          data: [22, 10, 5, 15, 5],
+          borderColor: '#f59e0b',      // amber line
+          pointBackgroundColor: '#f59e0b',
+          pointBorderColor: '#0c0a09',
+          pointRadius: 4,
+          pointHoverRadius: 5,
+          tension: 0.25,
+          yAxisID: 'y1',
+          // allow the label plugin to place numbers above points
+          labelFormatter: (v) => `${v}%`
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            color: '#f8fafc',
+            font: { family: "'Inter', sans-serif", size: 13 }
+          }
+        },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#d6d3d1', font: { family: "'Inter', sans-serif", size: 13 } },
+          grid: { color: 'rgba(255,255,255,0.1)' },
+          stacked: false
+        },
+        y: {
+          position: 'left',
+          beginAtZero: true,
+          max: 70, // enough headroom for usable-area bars
+          ticks: { color: '#d6d3d1', callback: (v) => v + '%', font: { family: "'Inter', sans-serif", size: 12 } },
+          grid: { color: 'rgba(255,255,255,0.1)' },
+          title: {
+            display: true,
+            text: 'Forest cover (%)',
+            color: '#d6d3d1',
+            font: { family: "'Inter', sans-serif", size: 12, weight: 'bold' }
+          }
+        },
+        y1: {
+          position: 'right',
+          beginAtZero: true,
+          max: 25, // brush share scale
+          grid: { drawOnChartArea: false },
+          ticks: { color: '#f59e0b', callback: (v) => v + '%', font: { family: "'Inter', sans-serif", size: 12 } },
+          title: {
+            display: true,
+            text: 'Brush share of forest (%)',
+            color: '#f59e0b',
+            font: { family: "'Inter', sans-serif", size: 12, weight: 'bold' }
+          }
+        }
+      },
+      animation: { duration: 1500, easing: 'easeInOutQuart' }
+    }
+  };
+  break;
                     case 'forestTypeChart':
                         config = {
                             type: 'doughnut',
